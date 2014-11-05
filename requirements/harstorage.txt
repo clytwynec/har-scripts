@@ -1,4 +1,4 @@
 pylons==1.0
 webob==0.9.8
-pymongo
+pymongo==2.7.2
 -e git+https://github.com/clytwynec/harstorage.git#egg=harstorage
