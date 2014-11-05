@@ -8,18 +8,19 @@ VAGRANTFILE_API_VERSION = "2"
 
 $script = <<SCRIPT
 # Install mongo and some python packages
-sudo apt-get update
-sudo apt-get install mongodb -y
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
+echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | sudo tee /etc/apt/sources.list.d/mongodb.list
+sudo apt-get update -y
+sudo apt-get install mongodb-org -y
 sudo apt-get install lib32stdc++6 -y
 sudo apt-get install build-essential python-dev -y
 sudo apt-get install python -y
 sudo apt-get install python-cairo -y
 sudo apt-get install python-rsvg -y
 sudo apt-get install python-setuptools -y
-easy_install pylons==1.0
-easy_install webob==0.9.8
-easy_install pymongo
-sudo easy_install  http://harstorage.googlecode.com/files/harstorage-1.0-py2.7.egg
+sudo apt-get install python-pip -y
+sudo apt-get install git -y
+sudo pip install -r /requirements/harstorage.txt
 
 echo  Provisioning Complete. To start server:
 echo  ...$   vagrant ssh
@@ -33,6 +34,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # For reference, please see the online documentation at vagrantup.com.
   config.vm.box = "precise64"
   config.vm.network "forwarded_port", guest: 5000, host: 5000
+  config.vm.synced_folder "requirements", "/requirements"
 end
 
 Vagrant.configure("2") do |config|
